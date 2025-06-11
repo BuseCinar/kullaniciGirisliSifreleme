@@ -1,0 +1,17 @@
+{
+  "bbbb": {
+    "password": "$2b$10$XU8fBUIIMuhaBIKxoCkf.uRQZLW/X1BSj1JOB/2OawwyIl/tKb5sG"
+  },
+  "deneme": {
+    "password": "$2b$10$1gMlKfk0JEdilfNSMX15feHEJ5ZDTKt4EIvErAfaNcQc5RA33m0KK"
+  },
+  "buse": {
+    "password": "$2b$10$9ptf0Aauk/ewXPSicEdYpO4CVXD6DQfsvFyrG9GL.A8XGmraap09K"
+  },
+  "busess": {
+    "password": "$2b$10$JJvl/LSwsXlgQr.pMA43IeZKxXqG6hKZOY9biWs25TJhALZRDlpxa"
+  },
+  "emre": {
+    "password": "$2b$10$7cVRRcdbSNOCnr9MDQRZH.1xz2ZEn9rzba3v/oYhP8osEEhzqSChG"
+  }
+}

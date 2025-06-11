@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap</title>
+    <style>
+        /* ===== GENEL STİLLER ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px;
+        }
+        
+        .container {
+            background: #fff; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px; 
+            max-width: 450px; 
+            width: 100%; 
+            position: relative; 
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        h1 { 
+            text-align: center; 
+            color: #333; 
+            margin-bottom: 30px; 
+            font-size: 28px; 
+            font-weight: 300; 
+        }
+        
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        
+        .input-label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 500; 
+            color: #374151; 
+        }
+        
+        .text-input { 
+            width: 100%; 
+            padding: 15px; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 10px; 
+            font-size: 16px; 
+            transition: border-color 0.3s ease;
+            background: #fff;
+        }
+        
+        .text-input:focus { 
+            outline: none; 
+            border-color: #667eea; 
+        }
+        
+        .text-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            margin-bottom: 20px; 
+        }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #667eea, #764ba2); 
+            color: #fff; 
+        }
+        
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(102,126,234,0.3); 
+        }
+        
+        .btn-primary:active { 
+            transform: translateY(0); 
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 20px;
+        }
+        
+        .login-footer p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .login-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .login-footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .alert { 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            font-weight: 500; 
+            animation: slideIn 0.3s ease-out; 
+            display: none;
+        }
+        
+        .alert-error { 
+            background: #fee2e2; 
+            color: #dc2626; 
+            border-left: 4px solid #dc2626; 
+        }
+        
+        .alert-success { 
+            background: #dcfce7; 
+            color: #16a34a; 
+            border-left: 4px solid #16a34a; 
+        }
+        
+        @keyframes slideIn { 
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px);
+            } 
+            to { 
+                opacity:1; 
+                transform: translateY(0);
+            } 
+        }
+        
+        .form-wrapper {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        /* Responsive tasarım */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <div class="icon">🔐</div>
+            <h1>Giriş Yap</h1>
+            
+            <div id="errorAlert" class="alert alert-error"></div>
+            <div id="successAlert" class="alert alert-success"></div>
+            
+            <form action="/login" method="post" id="loginForm">
+                <div class="form-group">
+                    <label class="input-label" for="username">Kullanıcı Adı:</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="text-input" 
+                        placeholder="Kullanıcı adınızı girin..."
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label class="input-label" for="password">Şifre:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="text-input" 
+                        placeholder="Şifrenizi girin..."
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    🚀 Giriş Yap
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Hesabın yok mu?</p>
+                <a href="/register.html">✨ Kayıt Ol</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      // URL parametresini al
+          const params = new URLSearchParams(window.location.search);
+          if (params.get('error') === '1') {
+            // hataDurumuna uygun mesaj
+            const msg = 'Kullanıcı adı veya şifre hatalı. Lütfen tekrar deneyin.';
+            showAlert(msg, 'error');
+          }
+
+          // showAlert zaten aşağıda tanımlı, form submit handler vs. korunuyor
+          function showAlert(message, type = 'error') {
+            const el = document.getElementById(type === 'error' ? 'errorAlert' : 'successAlert');
+            el.textContent = message;
+            el.style.display = 'block';
+            // 5sn sonra gizle
+            setTimeout(() => el.style.display = 'none', 5000);
+          }
+        // Form gönderim animasyonu
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '⏳ Giriş yapılıyor...';
+            submitBtn.disabled = true;
+        });
+
+        // Hata mesajı gösterme fonksiyonu (isteğe bağlı)
+        function showAlert(message, type = 'error') {
+            const alertElement = document.getElementById(type === 'error' ? 'errorAlert' : 'successAlert');
+            alertElement.textContent = message;
+            alertElement.style.display = 'block';
+            
+            setTimeout(() => {
+                alertElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Input odaklanma efektleri
+        document.querySelectorAll('.text-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+    </script>
+</body>
+</html>
