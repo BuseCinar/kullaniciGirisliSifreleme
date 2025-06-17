@@ -19,5 +19,11 @@
   },
   "selma": {
     "password": "$2b$10$qJ1gL3Uj03OcGm4QMuCmfuWiEaJvC9eblaKRytiMM.PfxDpYpyeKS"
+  },
+  "zz1122": {
+    "password": "$2b$10$xMMgvKCSIu.4fMUWYB9eUuJkUdmPDgnNkFzb.hOZfqQBj2JTwi/Vi"
+  },
+  "dened": {
+    "password": "$2b$10$D1XUeE4a/yU6s5jSBV/.Fun2UEUTEUz4TsWpdgTUu/9pzm6r1j7oS"
   }
 }
