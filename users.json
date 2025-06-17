@@ -13,5 +13,8 @@
   },
   "emre": {
     "password": "$2b$10$7cVRRcdbSNOCnr9MDQRZH.1xz2ZEn9rzba3v/oYhP8osEEhzqSChG"
+  },
+  "bus": {
+    "password": "$2b$10$YYP7yHWrw88KbpSWLGwp9.r5CXQSP/9HAjljm3o6Q5RNolyjDUxuK"
   }
 }
