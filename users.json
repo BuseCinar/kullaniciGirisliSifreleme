@@ -16,5 +16,8 @@
   },
   "bus": {
     "password": "$2b$10$YYP7yHWrw88KbpSWLGwp9.r5CXQSP/9HAjljm3o6Q5RNolyjDUxuK"
+  },
+  "selma": {
+    "password": "$2b$10$qJ1gL3Uj03OcGm4QMuCmfuWiEaJvC9eblaKRytiMM.PfxDpYpyeKS"
   }
 }

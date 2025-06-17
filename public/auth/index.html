@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Yap</title>
+    <title>Kayıt Ol</title>
     <style>
         /* ===== GENEL STİLLER ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -102,27 +102,27 @@
             transform: translateY(0); 
         }
         
-        .login-footer {
+        .register-footer {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid #e5e7eb;
             margin-top: 20px;
         }
         
-        .login-footer p {
+        .register-footer p {
             color: #64748b;
             font-size: 14px;
             margin-bottom: 10px;
         }
         
-        .login-footer a {
+        .register-footer a {
             color: #667eea;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
         
-        .login-footer a:hover {
+        .register-footer a:hover {
             color: #764ba2;
             text-decoration: underline;
         }
@@ -152,6 +152,22 @@
             background: #dcfce7; 
             color: #16a34a; 
             border-left: 4px solid #16a34a; 
+        }
+        
+        .password-strength {
+            margin-top: 5px;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .strength-weak { color: #dc2626; }
+        .strength-medium { color: #f59e0b; }
+        .strength-strong { color: #16a34a; }
+        
+        .form-hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
         }
         
         @keyframes slideIn { 
@@ -185,13 +201,13 @@
 <body>
     <div class="container">
         <div class="form-wrapper">
-            <div class="icon">🔐</div>
-            <h1>Giriş Yap</h1>
+            <div class="icon">✨</div>
+            <h1>Kayıt Ol</h1>
             
             <div id="errorAlert" class="alert alert-error"></div>
             <div id="successAlert" class="alert alert-success"></div>
             
-            <form action="/login" method="post" id="loginForm">
+            <form action="/register" method="post" id="registerForm">
                 <div class="form-group">
                     <label class="input-label" for="username">Kullanıcı Adı:</label>
                     <input 
@@ -199,10 +215,12 @@
                         id="username" 
                         name="username" 
                         class="text-input" 
-                        placeholder="Kullanıcı adınızı girin..."
+                        placeholder="Kullanıcı adınızı belirleyin..."
                         required
                         autocomplete="username"
+                        minlength="3"
                     >
+                    <div class="form-hint">En az 3 karakter olmalıdır</div>
                 </div>
                 
                 <div class="form-group">
@@ -212,49 +230,120 @@
                         id="password" 
                         name="password" 
                         class="text-input" 
-                        placeholder="Şifrenizi girin..."
+                        placeholder="Güçlü bir şifre oluşturun..."
                         required
-                        autocomplete="current-password"
+                        autocomplete="new-password"
+                        minlength="6"
                     >
+                    <div class="password-strength" id="passwordStrength"></div>
+                    <div class="form-hint">En az 6 karakter olmalıdır</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="input-label" for="confirmPassword">Şifre Tekrar:</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        class="text-input" 
+                        placeholder="Şifrenizi tekrar girin..."
+                        required
+                        autocomplete="new-password"
+                    >
+                    <div id="passwordMatch" class="form-hint"></div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">
-                    🚀 Giriş Yap
+                    🎉 Hesap Oluştur
                 </button>
             </form>
             
-            <div class="login-footer">
-                <p>Hesabın yok mu?</p>
-                <a href="/register.html">✨ Kayıt Ol</a>
+            <div class="register-footer">
+                <p>Zaten hesabın var mı?</p>
+                <a href="/auth/login.html">Giriş Yap</a>
             </div>
         </div>
     </div>
 
     <script>
-      // URL parametresini al
-          const params = new URLSearchParams(window.location.search);
-          if (params.get('error') === '1') {
-            // hataDurumuna uygun mesaj
-            const msg = 'Kullanıcı adı veya şifre hatalı. Lütfen tekrar deneyin.';
-            showAlert(msg, 'error');
-          }
-
-          // showAlert zaten aşağıda tanımlı, form submit handler vs. korunuyor
-          function showAlert(message, type = 'error') {
-            const el = document.getElementById(type === 'error' ? 'errorAlert' : 'successAlert');
-            el.textContent = message;
-            el.style.display = 'block';
-            // 5sn sonra gizle
-            setTimeout(() => el.style.display = 'none', 5000);
-          }
         // Form gönderim animasyonu
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
             const submitBtn = this.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = '⏳ Giriş yapılıyor...';
+            
+            // Şifre eşleşme kontrolü
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                showAlert('Şifreler eşleşmiyor!', 'error');
+                return;
+            }
+            
+            submitBtn.innerHTML = '⏳ Hesap oluşturuluyor...';
             submitBtn.disabled = true;
         });
 
-        // Hata mesajı gösterme fonksiyonu (isteğe bağlı)
+        // Şifre gücü kontrolü
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthElement = document.getElementById('passwordStrength');
+            
+            if (password.length === 0) {
+                strengthElement.textContent = '';
+                return;
+            }
+            
+            let strength = 0;
+            let strengthText = '';
+            let strengthClass = '';
+            
+            // Uzunluk kontrolü
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            
+            // Karakter çeşitliliği kontrolü
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            if (strength <= 2) {
+                strengthText = '🔴 Zayıf şifre';
+                strengthClass = 'strength-weak';
+            } else if (strength <= 4) {
+                strengthText = '🟡 Orta güçlü şifre';
+                strengthClass = 'strength-medium';
+            } else {
+                strengthText = '🟢 Güçlü şifre';
+                strengthClass = 'strength-strong';
+            }
+            
+            strengthElement.textContent = strengthText;
+            strengthElement.className = 'password-strength ' + strengthClass;
+        });
+
+        // Şifre eşleşme kontrolü
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const matchElement = document.getElementById('passwordMatch');
+            
+            if (confirmPassword.length === 0) {
+                matchElement.textContent = '';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                matchElement.textContent = '✅ Şifreler eşleşiyor';
+                matchElement.style.color = '#16a34a';
+            } else {
+                matchElement.textContent = '❌ Şifreler eşleşmiyor';
+                matchElement.style.color = '#dc2626';
+            }
+        });
+
+        // Hata mesajı gösterme fonksiyonu
         function showAlert(message, type = 'error') {
             const alertElement = document.getElementById(type === 'error' ? 'errorAlert' : 'successAlert');
             alertElement.textContent = message;
